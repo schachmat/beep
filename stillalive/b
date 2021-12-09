@@ -1,0 +1,442 @@
+#! /bin/sh
+
+a2="110.00"
+b2="116.54"
+h2="123.47"
+c3="130.81"
+cis3="138.59"
+d3="146.83"
+dis3="155.56"
+e3="164.81"
+f3="174.61"
+fis3="185.00"
+g3="196.00"
+gis3="207.65"
+a3="220.00"
+b3="233.08"
+h3="246.94"
+c4="261.63"
+cis4="277.18"
+d4="293.66"
+dis4="311.13"
+e4="329.63"
+f4="349.23"
+fis4="369.99"
+g4="392.00"
+gis4="415.30"
+a4="440.00"
+b4="466.16"
+h4="493.88"
+c5="523.25"
+cis5="554.37"
+d5="587.33"
+dis5="622.25"
+e5="659.25"
+f5="698.46"
+fis5="739.99"
+g5="783.99"
+gis5="830.61"
+a5="880.00"
+b5="932.33"
+
+p="30"
+mp="45"
+mf="50"
+f="70"
+
+# make sure this only runs once.
+exec 8>"/tmp/.stillalive.$(hostname).LCK";
+if flock -n -e 8; then :
+else
+	exit 1;
+fi
+
+volset() {
+	amixer -c 1 sset Beep "$1%" unmute
+	amixer -c 1 sset Master "100%" unmute
+	amixer -c 1 sset Speaker "100%" unmute
+	amixer -c 1 sset PCM "100%"
+}
+
+volfade() {
+	case $1 in
+		f)
+			for i in $(seq $mf 1 $f); do
+				volset $i
+				sleep 0.05
+			done
+			;;
+		p)
+			for i in $(seq $mf -1 $p); do
+				volset $i
+				sleep 0.05
+			done
+			;;
+	esac
+}
+theme1() {
+	if [ $1 -eq 1 -o $1 -eq 3 -o $2 -eq 1 ]; then
+		beep -l 200 -D 50 -f $a3 \
+			--new -l 200 -D 50 -f $d4 \
+			--new -l 200 -D 50 -f $fis4 \
+			--new -l 200 -D 50 -f $d4 \
+			--new -l 200 -D 50 -f $h3 \
+			--new -l 200 -D 50 -f $d4 \
+			--new -l 200 -D 50 -f $fis4 \
+			--new -l 200 -D 50 -f $d4
+	else
+		beep -l 950 -D 50 -f $d3 \
+			--new -l 950 -D 50 -f $fis3
+	fi
+}
+
+theme2() {
+	if [ $1 -eq 1 -o $1 -eq 3 -o $2 -eq 1 ]; then
+		beep -l 200 -D 50 -f $h3 \
+			--new -l 200 -D 50 -f $e4 \
+			--new -l 200 -D 50 -f $g4 \
+			--new -l 200 -D 50 -f $e4 \
+			--new -l 200 -D 50 -f $h3 \
+			--new -l 200 -D 50 -f $e4 \
+			--new -l 200 -D 50 -f $g4 \
+			--new -l 200 -D 50 -f $e4 \
+			\
+			--new -l 200 -D 50 -f $a3 \
+			--new -l 200 -D 50 -f $e4 \
+			--new -l 200 -D 50 -f $g4 \
+			--new -l 200 -D 50 -f $e4 \
+			--new -l 200 -D 50 -f $a3 \
+			--new -l 200 -D 50 -f $e4 \
+			--new -l 200 -D 50 -f $g4 \
+			--new -l 200 -D 50 -f $e4
+	else
+		beep -l 950 -D 50 -f $e3 \
+			--new -l 950 -D 50 -f $e3 \
+			\
+			--new -l 950 -D 50 -f $e3 \
+			--new -l 950 -D 50 -f $e3
+	fi
+}
+
+theme3() {
+	if [ $1 -eq 1 -o $1 -eq 3 ]; then
+		beep -l 700 -D 50 -f $a3 \
+			--new -l 200 -D 50 -f $a3 \
+			--new -l 700 -D 50 -f $fis3 \
+			--new -l 200 -D 50 -f $fis3
+	else
+		beep -l 700 -D 50 -f $d3 \
+			--new -l 200 -D 50 -f $d3 \
+			--new -l 700 -D 50 -f $h2 \
+			--new -l 200 -D 50 -f $h2
+	fi
+}
+
+theme4() {
+	case $1 in
+		1)
+			beep -l 450 -D 50 -f $b3 \
+				--new -l 450 -D 50 -f $b3 \
+				--new -l 200 -D 50 -f $b3 \
+				--new -l 200 -D 50 -f $b3 \
+				--new -l 200 -D 50 -f $b3 \
+				--new -l 200 -D 50 -f $b3
+			for i in $(seq 2); do
+				beep -l 700 -D 50 -f $f3 \
+					--new -l 200 -D 50 -f $f3 \
+					--new -l 700 -D 50 -f $c4 \
+					--new -l 200 -D 50 -f $c4 \
+					\
+					--new -l 700 -D 50 -f $b3 \
+					--new -l 200 -D 50 -f $b3 \
+					--new -l 700 -D 50 -f $f3 \
+					--new -l 200 -D 50 -f $f3
+			done
+			beep -l 950 -D 50 -f $b3 \
+				--new -l 450 -D 50 -f $c4 \
+				--new -l 450 -D 50 -f $c4 \
+				\
+				--new -l 450 -D 50 -f $f4 \
+				--new -l 450 -D 50 -f $e4 \
+				--new -l 450 -D 50 -f $d4 \
+				--new -l 450 -D 50 -f $c4 \
+				\
+				--new -l 450 -D 50 -f $b3 \
+				--new -l 450 -D 50 -f $b3 \
+				--new -l 450 -D 50 -f $c4 \
+				--new -l 450 -D 50 -f $c4
+			;;
+		2)
+			beep -l 450 -D 50 -f $f3 \
+				--new -l 450 -D 50 -f $f3 \
+				--new -l 200 -D 50 -f $f3 \
+				--new -l 200 -D 50 -f $f3 \
+				--new -l 200 -D 50 -f $f3 \
+				--new -l 200 -D 50 -f $f3
+			for i in $(seq 2); do
+				beep -l 700 -D 50 -f $c3 \
+					--new -l 200 -D 50 -f $c3 \
+					--new -l 700 -D 50 -f $g3 \
+					--new -l 200 -D 50 -f $g3 \
+					\
+					--new -l 700 -D 50 -f $f3 \
+					--new -l 200 -D 50 -f $f3 \
+					--new -l 700 -D 50 -f $c3 \
+					--new -l 200 -D 50 -f $c3
+			done
+			beep -l 950 -D 50 -f $f3 \
+				--new -l 450 -D 50 -f $g3 \
+				--new -l 450 -D 50 -f $g3 \
+				\
+				--new -l 450 -D 50 -f $c4 \
+				--new -l 450 -D 50 -f $c4 \
+				--new -l 450 -D 50 -f $b3 \
+				--new -l 450 -D 50 -f $g3 \
+				\
+				--new -l 450 -D 50 -f $f3 \
+				--new -l 450 -D 50 -f $f3 \
+				--new -l 450 -D 50 -f $g3 \
+				--new -l 450 -D 50 -f $g3
+			;;
+		3)
+			beep -l 450 -D 50 -f $d3 \
+				--new -l 450 -D 50 -f $d3 \
+				--new -l 200 -D 50 -f $d3 \
+				--new -l 200 -D 50 -f $d3 \
+				--new -l 200 -D 50 -f $d3 \
+				--new -l 200 -D 50 -f $d3
+			for i in $(seq 2); do
+				beep -l 700 -D 50 -f $a2 \
+					--new -l 200 -D 50 -f $a2 \
+					--new -l 700 -D 50 -f $e3 \
+					--new -l 200 -D 50 -f $e3 \
+					\
+					--new -l 700 -D 50 -f $d3 \
+					--new -l 200 -D 50 -f $d3 \
+					--new -l 700 -D 50 -f $a2 \
+					--new -l 200 -D 50 -f $a2
+			done
+			beep -l 950 -D 50 -f $d3 \
+				--new -l 450 -D 50 -f $e3 \
+				--new -l 450 -D 50 -f $e3 \
+				\
+				--new -l 450 -D 50 -f $a3 \
+				--new -l 450 -D 50 -f $g3 \
+				--new -l 450 -D 50 -f $f3 \
+				--new -l 450 -D 50 -f $e3 \
+				\
+				--new -l 450 -D 50 -f $d3 \
+				--new -l 450 -D 50 -f $d3 \
+				--new -l 450 -D 50 -f $e3 \
+				--new -l 450 -D 50 -f $e3
+			;;
+	esac
+}
+
+case $1 in
+	1|2|3) ;;
+	*)
+		echo "usage: $0 {1,2,3}"
+		exit 1
+		;;
+esac
+
+volset $mp
+
+# this was a tri…
+sleep 1
+
+# …umph.
+# i'm making a note here: huge success.
+# it's
+for i in $(seq 4); do
+	theme1 $1 1
+done
+
+# hard to overstate my satisfac…
+theme2 $1 1
+
+# …tion.
+# aperture science.
+# we do what we must because we can.
+for i in $(seq 6); do
+	theme1 $1 1
+done
+
+# For the good of all of us except the
+theme2 $1 1
+
+# Ones who are dead
+beep \
+   -l 200 -D 50 -f $b3 \
+   --new -l 200 -D 50 -f $d4 \
+   --new -l 200 -D 50 -f $f4 \
+   --new -l 200 -D 50 -f $b4 \
+
+sleep 1
+
+# But there's no sense crying over every mistake.
+# you just keep on trying till you run out of cake.
+# and the science gets done and you make a neat gun
+# for the people who are still alive.
+beep -l 200 -D 50 -f $f3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $g3 \
+	--new -l 200 -D 50 -f $d4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $d4 \
+	\
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	\
+	--new -l 200 -D 50 -f $f3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $g3 \
+	--new -l 200 -D 50 -f $d4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $d4 \
+	\
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	\
+	--new -l 200 -D 50 -f $b3 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $b3 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $f4 \
+	\
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	\
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $f4 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $a3 \
+	--new -l 200 -D 50 -f $c4 \
+	--new -l 200 -D 50 -f $e4 \
+	--new -l 200 -D 50 -f $fis4 \
+
+# I'm not even an-
+for i in $(seq 4); do
+	theme3 $1
+done
+
+# -gry.
+# I'm being so sincere right now.
+for i in $(seq 4); do
+	theme1 $1 2
+done
+
+# Even though you broke my heart and killed
+theme2 $1 2
+
+# me
+# and tore me to pieces.
+# and threw every piece int  a fire.
+for i in $(seq 6); do
+	theme1 $1 2
+done
+
+# as they burned it hurt because i was so
+theme2 $1 2
+
+volset $mf
+
+# happy for you!
+# Now these points of data make a beautiful line
+# and we're out of beta, we're releasing on time
+# so i'm glad i got burned.
+# think of all the things we learned
+# for the people who are still alive.
+theme4 $1
+
+volset $mp
+
+{
+	sleep 6; volfade p
+}&
+
+# Go ahead and leave me.
+# I think I prefer to stay inside
+for i in $(seq 8); do
+	theme1 $1 1
+done
+
+# Maybe you'll find someone else to help
+theme2 $1 1
+
+volset $mp
+
+# you.
+# Maybe Black Me…
+for i in $(seq 2); do
+	theme1 $1 1
+done
+
+# …sa.
+# that was a joke ha ha fat chance.
+for i in $(seq 4); do
+	theme1 $1 2
+done
+
+# Anyway this cake is great, it's so de…
+theme2 $1 2
+
+volset $mf
+
+# …licious and moist.
+# look at me still talking, when there's science to do.
+# when i look out there it makes me glad i'm not you.
+# i've experiments to run, there is research to be done
+# on the people who are still alive.
+theme4 $1
+
+# and believe me i am still alive.
+# im doing science and i'm still alive.
+# i feel fantastic and i'm still alive.
+# while you're dying i'll be still alive.
+# and when you're dead i will be still alive.
+# still alive.
+for i in $(seq 11); do
+	theme1 $1 2
+done
+
+volfade p &
+
+# still alive
+if [ $1 -eq 1 -o $1 -eq 3 ]; then
+	beep -l 200 -D 50 -f $a3 \
+		--new -l 200 -D 50 -f $d4 \
+		--new -l 200 -D 50 -f $fis4 \
+		--new -l 200 -D 50 -f $d4 \
+		--new -l 200 -D 50 -f $h3
+else
+	beep -l 950 -D 50 -f $d3 \
+		--new -l 950 -D 50 -f $fis3
+fi

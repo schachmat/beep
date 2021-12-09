@@ -1,0 +1,657 @@
+#! /bin/sh
+
+e3="164.81"
+f3="174.61"
+fis3="185.00"
+g3="196.00"
+gis3="207.65"
+a3="220.00"
+b3="233.08"
+h3="246.94"
+c4="261.63"
+cis4="277.18"
+d4="293.66"
+dis4="311.13"
+e4="329.63"
+f4="349.23"
+fis4="369.99"
+g4="392.00"
+gis4="415.30"
+a4="440.00"
+b4="466.16"
+h4="493.88"
+c5="523.25"
+cis5="554.37"
+d5="587.33"
+dis5="622.25"
+e5="659.25"
+f5="698.46"
+fis5="739.99"
+g5="783.99"
+gis5="830.61"
+a5="880.00"
+b5="932.33"
+
+p="30"
+mp="45"
+mf="50"
+f="70"
+
+# make sure this only runs once.
+exec 8>"/tmp/.stillalive.$(hostname).LCK";
+if flock -n -e 8; then :
+else
+	exit 1;
+fi
+
+still_alive() {
+	beep -l 200 -D 50 -f $a5 \
+		--new -l 200 -D 50 -f $a5 \
+		--new -l 200 -D 50 -f $b5 \
+		--new -l 200 -D 50 -f $a5 \
+		--new -l 200 -D 50 -f $fis5 \
+		--new -l 450 -D 50 -f $d5
+	if [ $1 -eq 1 ]; then
+		beep -l 200 -D 50 -f $e5 \
+			--new -l 200 -D 50 -f $fis5 \
+			--new -l 700 -D 50 -f $fis5
+	else
+		beep -l 200 -D 50 -f $g4 \
+			--new -l 200 -D 50 -f $a4 \
+			--new -l 700 -D 50 -f $a4
+	fi
+}
+
+volset() {
+	amixer -c 1 sset Beep "$1%" unmute
+	amixer -c 1 sset Master "100%" unmute
+	amixer -c 1 sset Speaker "100%" unmute
+	amixer -c 1 sset PCM "100%"
+}
+
+volfade() {
+	case $1 in
+		f)
+			for i in $(seq $mf 1 $f); do
+				volset $i
+				sleep 0.05
+			done
+			;;
+		p)
+			for i in $(seq $mf -1 $p); do
+				volset $i
+				sleep 0.05
+			done
+			;;
+	esac
+}
+
+case $1 in
+	1|2) ;;
+	*)
+		echo "usage: $0 {1,2}"
+		exit 1
+		;;
+esac
+
+volset $mp
+
+# This was a triumph
+beep -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $fis5
+
+sleep 2.25
+
+# I'm making a note here
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5
+
+sleep 0.5
+
+# huge success
+beep -l 450 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $a4
+
+sleep 1.75
+
+# It's hard to overstate my satisfaction
+beep -l 200 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $cis5 \
+	--new -l 700 -D 50 -f $d5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $fis5
+
+sleep 2.25
+
+# Aperture Science
+beep -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $fis5
+
+sleep 2.25
+
+# We do what we must
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5
+
+sleep 0.5
+
+# because
+beep -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $d5
+
+sleep 0.5
+
+# we can
+beep -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $a4
+
+sleep 2
+
+# For the good of all of us
+beep -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 700 -D 50 -f $cis5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5
+
+sleep 0.25
+
+# except the ones who are dead
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5
+
+sleep 0.5
+
+# But there's no sense crying over every mistake.
+# You just keep on trying 'till you run out of cake.
+# And the science gets done and you make a neat gun
+# for the people who are still alive
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $b4 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $c5 \
+	\
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $b4 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $f5 \
+	\
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $b5 \
+	--new -l 200 -D 50 -f $b5 \
+	--new -l 450 -D 50 -f $a5 \
+	--new -l 450 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 450 -D 50 -f $g5 \
+	--new -l 450 -D 50 -f $f5 \
+	\
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $fis5
+
+# INTERMEZZO
+for i in $(seq 3); do
+	beep -l 200 -D 50 -f $d5 \
+		--new -l 200 -D 50 -f $h4 \
+		--new -l 200 -D 50 -f $d5 \
+		--new -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 50 -f $d5 \
+		--new -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $d5 \
+		--new -l 200 -D 50 -f $fis5
+done
+
+volset $mf
+
+# I'm not even angry.
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $fis5 \
+
+sleep 2.25
+
+# I'm beeing so sincere right now.
+beep -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 700 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 450 -D 50 -f $d5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 700 -D 50 -f $a4 \
+
+sleep 1.5
+
+# Even though you broke my heart and killed me.
+beep -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $g5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $cis5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 700 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $fis5 \
+
+sleep 2
+
+if [ $1 -eq 1 ]; then
+	# And tore me to pieces.
+	beep -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $g5 \
+		--new -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 50 -f $e5 \
+		--new -l 200 -D 50 -f $e5 \
+		--new -l 450 -D 2300 -f $fis5
+
+	# And threw every piece
+	beep -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $g5 \
+		--new -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 50 -f $e5 \
+		--new -l 200 -D 550 -f $e5
+
+	# Into
+	beep -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 550 -f $d5
+
+	# a fire.
+	beep -l 200 -D 50 -f $e5 \
+		--new -l 200 -D 50 -f $a4
+else
+	# And tore me to pieces.
+	beep -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $h4 \
+		--new -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $g4 \
+		--new -l 200 -D 50 -f $g4 \
+		--new -l 450 -D 2300 -f $a4
+
+	# And threw every piece
+	beep -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $h4 \
+		--new -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $g4 \
+		--new -l 200 -D 550 -f $g4
+
+	# Into
+	beep -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 550 -f $fis4
+
+	# a fire.
+	beep -l 200 -D 50 -f $g4 \
+		--new -l 200 -D 50 -f $a4
+fi
+
+sleep 2
+
+# As they burned it hurt because
+beep -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $g5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $cis5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+
+sleep 0.25
+
+{
+	sleep 0.75; volfade f
+}&
+
+# I was so happy for you!
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+
+sleep 0.5
+
+# Now these points of data make a beautiful line
+# and we're out of beta we're releasing on time.
+# So I'm GLaD I got burned.
+# Think of all the things we learned
+# for the people who are still alive.
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $b4 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $c5 \
+	\
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $b4 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $f5 \
+	\
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $b5 \
+	--new -l 200 -D 50 -f $b5 \
+	--new -l 450 -D 50 -f $a5 \
+	--new -l 450 -D 50 -f $g5 \
+	\
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $f5 \
+	\
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $fis5 \
+
+volset $mf
+
+sleep 2.5
+
+# INTERMEZZO
+beep -l 300 -D 33 -f $g5 \
+	--new -l 300 -D 33 -f $fis5 \
+	--new -l 300 -D 33 -f $d5 \
+	--new -l 1950 -D 50 -f $a4
+
+volfade p
+
+sleep 1
+
+# Go ahead and leave me.
+beep -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $fis5
+
+sleep 2
+
+# I think I prefer
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5
+
+sleep 0.5
+
+# to stay
+beep -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $d5
+
+sleep 0.5
+
+# inside
+beep -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $a4
+
+sleep 2
+
+# Maybe you'll find someone else to help you.
+beep -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $g5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $cis5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 700 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $a4 \
+	--new -l 450 -D 50 -f $fis5
+
+sleep 2.25
+
+volset $mf
+
+if [ $1 -eq 1 ]; then
+	# Maybe black mesa.
+	beep -l 200 -D 50 -f $g5 \
+		--new -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 50 -f $e5 \
+		--new -l 450 -D 50 -f $e5 \
+		--new -l 450 -D 2300 -f $fis5
+
+	# That was a joke,
+	beep -l 200 -D 50 -f $g5 \
+		--new -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 50 -f $e5 \
+		--new -l 200 -D 550 -f $e5
+
+	# ha ha,
+	beep -l 200 -D 50 -f $fis5 \
+		--new -l 200 -D 550 -f $d5
+
+	# fat chance.
+	beep -l 200 -D 50 -f $e5 \
+		--new -l 200 -D 50 -f $a4
+else
+	# Maybe black mesa.
+	beep -l 200 -D 50 -f $h4 \
+		--new -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $g4 \
+		--new -l 450 -D 50 -f $g4 \
+		--new -l 450 -D 2300 -f $a4
+
+	# That was a joke,
+	beep -l 200 -D 50 -f $h4 \
+		--new -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 50 -f $g4 \
+		--new -l 200 -D 550 -f $g4
+
+	# ha ha
+	beep -l 200 -D 50 -f $a4 \
+		--new -l 200 -D 550 -f $fis4
+
+	# fat chance.
+	beep -l 200 -D 50 -f $g4 \
+		--new -l 200 -D 50 -f $a4
+fi
+
+sleep 2
+
+# Anyway this cake is great,
+beep -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $g5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $cis5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5
+
+sleep 0.25
+
+{
+	sleep 0.75; volfade f
+}&
+
+# it's so delicious and moist.
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5
+
+sleep 0.5
+
+# Look at me still talking, when there's science to do.
+# When I look out there it makes me glad i'm not you.
+# I've experiments to run, there is research to be done
+# on the people who are still alive.
+beep -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $b4 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $c5 \
+	\
+	--new -l 200 -D 50 -f $a4 \
+	--new -l 200 -D 50 -f $b4 \
+	--new -l 450 -D 50 -f $c5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 450 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $f5 \
+	\
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $b5 \
+	--new -l 200 -D 50 -f $b5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 450 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $g5 \
+	--new -l 450 -D 50 -f $f5 \
+	\
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $c5 \
+	--new -l 200 -D 50 -f $d5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 200 -D 50 -f $f5 \
+	--new -l 450 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $e5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 1200 -D 50 -f $fis5
+
+sleep 0.5
+
+still_alive $1
+
+sleep 0.75
+
+beep -l 200 -D 50 -f $a5
+still_alive $1
+
+sleep 0.75
+
+beep -l 200 -D 50 -f $a5
+still_alive $1
+
+sleep 1
+
+still_alive $1
+
+sleep 0.75
+
+beep -l 200 -D 50 -f $a5
+still_alive $1
+
+sleep 0.75
+
+volset $mf
+
+beep -l 200 -D 50 -f $fis5 \
+	--new -l 200 -D 50 -f $a5 \
+	--new -l 700 -D 50 -f $a5
+
+sleep 0.75
+
+volset $mp
+
+beep -l 200 -D 50 -f $g5 \
+	--new -l 200 -D 50 -f $fis5 \
+	--new -l 700 -D 50 -f $fis5
+
+volset $p
+
+# http://www.vgmpf.com/Wiki/index.php?title=Still_Alive
+# http://www.phy.mtu.edu/~suits/notefreqs.html
